@@ -18,7 +18,7 @@ CREATE TABLE crowdfunding_db_schema.category (
 CREATE TABLE crowdfunding_db_schema.subcategory (
     subcategory_id VARCHAR(100) PRIMARY KEY,
     subcategory VARCHAR(100),
-    category_id INTEGER REFERENCES crowdfunding_db_schema.category(category_id)
+    category_id VARCHAR(100) REFERENCES crowdfunding_db_schema.category(category_id)
 );
 
 -- Create the campaign table
@@ -35,8 +35,8 @@ CREATE TABLE crowdfunding_db_schema.campaign (
     currency VARCHAR(10),
     launch_date TIMESTAMP,
     end_date TIMESTAMP,
-    category_id INTEGER REFERENCES crowdfunding_db_schema.category(category_id),
-    subcategory_id INTEGER REFERENCES crowdfunding_db_schema.subcategory(subcategory_id)
+    category_id VARCHAR(100) REFERENCES crowdfunding_db_schema.category(category_id),
+    subcategory_id VARCHAR(100) REFERENCES crowdfunding_db_schema.subcategory(subcategory_id)
 );
 
 SELECT * FROM crowdfunding_db_schema.contacts;
