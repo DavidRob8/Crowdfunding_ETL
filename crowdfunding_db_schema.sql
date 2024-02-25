@@ -1,0 +1,48 @@
+CREATE SCHEMA crowdfunding_schema;
+
+--Create the contacts table 
+CREATE TABLE crowdfunding_schema.contacts (
+    contact_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(255)
+);
+
+-- Create the category table
+CREATE TABLE crowdfunding_schema.category (
+    category_id SERIAL PRIMARY KEY,
+    category VARCHAR(100)
+);
+
+-- Create the subcategory table
+CREATE TABLE crowdfunding_schema.subcategory (
+    subcategory_id SERIAL PRIMARY KEY,
+    subcategory VARCHAR(100),
+    category_id INTEGER REFERENCES category(category_id)
+);
+
+-- Create the campaign table
+CREATE TABLE crowdfunding_schema.campaign (
+    cf_id SERIAL PRIMARY KEY,
+    contact_id INTEGER REFERENCES crowdfunding_schema.contacts(contact_id),
+    company_name VARCHAR(255),
+    description TEXT,
+    goal NUMERIC,
+    pledged NUMERIC,
+    outcome VARCHAR(50),
+    backers_count INTEGER,
+    country VARCHAR(100),
+    currency VARCHAR(10),
+    launch_date TIMESTAMP,
+    end_date TIMESTAMP,
+    category_id INTEGER REFERENCES category(category_id),
+    subcategory_id INTEGER REFERENCES subcategory(subcategory_id)
+);
+
+SELECT * FROM crowdfunding_schema.contacts;
+
+SELECT * FROM crowdfunding_schema.category;
+
+SELECT * FROM crowdfunding_schema.subcategory;
+
+SELECT * FROM crowdfunding_schema.campaign;
