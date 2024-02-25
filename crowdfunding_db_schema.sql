@@ -10,13 +10,13 @@ CREATE TABLE crowdfunding_db_schema.contacts (
 
 -- Create the category table
 CREATE TABLE crowdfunding_db_schema.category (
-    category_id SERIAL PRIMARY KEY,
+    category_id VARCHAR(100) PRIMARY KEY,
     category VARCHAR(100)
 );
 
 -- Create the subcategory table
 CREATE TABLE crowdfunding_db_schema.subcategory (
-    subcategory_id SERIAL PRIMARY KEY,
+    subcategory_id VARCHAR(100) PRIMARY KEY,
     subcategory VARCHAR(100),
     category_id INTEGER REFERENCES crowdfunding_db_schema.category(category_id)
 );
@@ -27,8 +27,8 @@ CREATE TABLE crowdfunding_db_schema.campaign (
     contact_id INTEGER REFERENCES crowdfunding_db_schema.contacts(contact_id),
     company_name VARCHAR(255),
     description TEXT,
-    goal NUMERIC,
-    pledged NUMERIC,
+    goal DECIMAL (10,2),
+    pledged DECIMAL (10,2),
     outcome VARCHAR(50),
     backers_count INTEGER,
     country VARCHAR(100),
