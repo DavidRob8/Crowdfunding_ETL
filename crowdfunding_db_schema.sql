@@ -1,48 +1,60 @@
-CREATE SCHEMA crowdfunding_db_schema;
+﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Link to schema: https://app.quickdatabasediagrams.com/#/d/cqe5sw
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
---Create the contacts table 
-CREATE TABLE crowdfunding_db_schema.contacts (
-    contact_id SERIAL PRIMARY KEY,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    email VARCHAR(255)
+
+CREATE TABLE "campaign" (
+    "cf_id" INTEGER   NOT NULL,
+    "contact_id" INTEGER   NOT NULL,
+    "company_name" VARCHAR   NOT NULL,
+    "description" VARCHAR   NOT NULL,
+    "goal" FLOAT   NOT NULL,
+    "pledged" FLOAT   NOT NULL,
+    "outcome" VARCHAR   NOT NULL,
+    "backers_count" INTEGER   NOT NULL,
+    "country" VARCHAR   NOT NULL,
+    "currency" VARCHAR   NOT NULL,
+    "launched_date" DATE   NOT NULL,
+    "end_date" DATE   NOT NULL,
+    "category_id" VARCHAR   NOT NULL,
+    "subcategory_id" VARCHAR   NOT NULL,
+    CONSTRAINT "pk_campaign" PRIMARY KEY (
+        "cf_id"
+     )
 );
 
--- Create the category table
-CREATE TABLE crowdfunding_db_schema.category (
-    category_id VARCHAR(100) PRIMARY KEY,
-    category VARCHAR(100)
+CREATE TABLE "contacts" (
+    "contact_id" INTEGER   NOT NULL,
+    "first_name" VARCHAR   NOT NULL,
+    "last_name" VARCHAR   NOT NULL,
+    "email" VARCHAR   NOT NULL,
+    CONSTRAINT "pk_contacts" PRIMARY KEY (
+        "contact_id"
+     )
 );
 
--- Create the subcategory table
-CREATE TABLE crowdfunding_db_schema.subcategory (
-    subcategory_id VARCHAR(100) PRIMARY KEY,
-    subcategory VARCHAR(100),
-    category_id VARCHAR(100) REFERENCES crowdfunding_db_schema.category(category_id)
+CREATE TABLE "category" (
+    "category_id" VARCHAR   NOT NULL,
+    "category" VARCHAR   NOT NULL,
+    CONSTRAINT "pk_category" PRIMARY KEY (
+        "category_id"
+     )
 );
 
--- Create the campaign table
-CREATE TABLE crowdfunding_db_schema.campaign (
-    cf_id SERIAL PRIMARY KEY,
-    contact_id INTEGER REFERENCES crowdfunding_db_schema.contacts(contact_id),
-    company_name VARCHAR(255),
-    description TEXT,
-    goal DECIMAL (10,2),
-    pledged DECIMAL (10,2),
-    outcome VARCHAR(50),
-    backers_count INTEGER,
-    country VARCHAR(100),
-    currency VARCHAR(10),
-    launch_date TIMESTAMP,
-    end_date TIMESTAMP,
-    category_id VARCHAR(100) REFERENCES crowdfunding_db_schema.category(category_id),
-    subcategory_id VARCHAR(100) REFERENCES crowdfunding_db_schema.subcategory(subcategory_id)
+CREATE TABLE "subcategory" (
+    "subcategory_id" VARCHAR   NOT NULL,
+    "subcategory" VARCHAR   NOT NULL,
+    CONSTRAINT "pk_subcategory" PRIMARY KEY (
+        "subcategory_id"
+     )
 );
 
-SELECT * FROM crowdfunding_db_schema.contacts;
+ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_contact_id" FOREIGN KEY("contact_id")
+REFERENCES "contacts" ("contact_id");
 
-SELECT * FROM crowdfunding_db_schema.category;
+ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_category_id" FOREIGN KEY("category_id")
+REFERENCES "category" ("category_id");
 
-SELECT * FROM crowdfunding_db_schema.subcategory;
+ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_subcategory_id" FOREIGN KEY("subcategory_id")
+REFERENCES "subcategory" ("subcategory_id");
 
-SELECT * FROM crowdfunding_db_schema.campaign;
